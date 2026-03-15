@@ -2,198 +2,302 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ខ្មែរ ROYAL — Belajar Bahasa Khmer</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+Khmer:wght@400;700;900&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AL JUNIOR — Belajar Bahasa Khmer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+Khmer:wght@400;600;700;900&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- SPLASH -->
 <div id="splash">
   <div class="sp-bg"></div>
   <div id="pts"></div>
   <div class="sp-rings"><div></div><div></div><div></div></div>
   <div class="sp-content">
+    <div class="sp-brand">AL JUNIOR</div>
     <div class="sp-kh">ខ្មែរ</div>
-    <div class="sp-sub">BAHASA KERAJAAN ANGKOR WAT</div>
+    <div class="sp-sub">BELAJAR BAHASA KHMER LENGKAP</div>
     <div class="sp-line"></div>
-    <div class="sp-desc">Warisan Budaya · Bahasa Kuno · Keindahan Abadi</div>
-    <button class="sp-btn" onclick="enterSite()">✦ MASUK KE DUNIA KHMER ✦</button>
+    <div class="sp-desc">Kosakata · Percakapan · Angka · Lagu · Karaoke · Kuis</div>
+    <button class="sp-btn" onclick="enterSite()">✦ MULAI BELAJAR ✦</button>
   </div>
 </div>
 
+<!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo">ខ្មែរ <span>ROYAL</span></div>
-  <ul class="nav-links">
-    <li><a href="#alpha">Abjad</a></li>
-    <li><a href="#vocab">Kosakata</a></li>
-    <li><a href="#phrases">Percakapan</a></li>
-    <li><a href="#numbers">Angka</a></li>
-    <li><a href="#grammar">Tata Bahasa</a></li>
-    <li><a href="#songs">Lagu</a></li>
-    <li><a href="#quiz">Kuis</a></li>
-    <li><a href="#proverbs">Peribahasa</a></li>
-    <li><a href="#culture">Budaya</a></li>
+  <div class="nav-logo" onclick="showPage('home')" style="cursor:pointer">AL JUNIOR <span>ខ្មែរ</span></div>
+  <button class="nav-ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="nav('home')">🏠 Beranda</a></li>
+    <li><a onclick="nav('alpha')">🔤 Abjad</a></li>
+    <li class="has-sub">
+      <a onclick="navVocab(event)">📚 Kosakata ▾</a>
+      <ul class="sub-menu" id="subVocab"></ul>
+    </li>
+    <li><a onclick="nav('phrases')">💬 Percakapan</a></li>
+    <li><a onclick="nav('numbers')">🔢 Angka</a></li>
+    <li><a onclick="nav('grammar')">📖 Tata Bahasa</a></li>
+    <li><a onclick="nav('songs')">🎵 Lagu</a></li>
+    <li><a onclick="nav('karaoke')">🎤 Karaoke</a></li>
+    <li><a onclick="nav('quiz')">🧠 Kuis</a></li>
+    <li><a onclick="nav('culture')">🏯 Budaya</a></li>
   </ul>
-  <div class="nav-ham" onclick="toggleMenu()">☰</div>
 </nav>
 
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-badge">✦ PANDUAN LENGKAP BAHASA KHMER ✦</div>
-    <h1 class="hero-title">Belajar Bahasa<span class="hero-kh">ខ្មែរ</span></h1>
-    <p class="hero-tag">"Warisan Angkor Wat ada di setiap kata yang kamu ucapkan"</p>
-    <p class="hero-desc">Website belajar bahasa Khmer paling lengkap — abjad kuno, kosakata, tata bahasa, percakapan, peribahasa, budaya, dan lagu-lagu tradisional Kamboja. Semua lengkap dengan cara baca & terjemahan Indonesia.</p>
-    <div class="hero-btns">
-      <a href="#alpha" class="btn-gold">Mulai Belajar</a>
-      <a href="#songs" class="btn-out">🎵 Lagu Khmer</a>
-    </div>
-    <div class="hero-stats">
-      <div><div class="sn">33</div><div class="sl">Konsonan</div></div>
-      <div><div class="sn">200+</div><div class="sl">Kosakata</div></div>
-      <div><div class="sn">8</div><div class="sl">Lagu Lengkap</div></div>
-      <div><div class="sn">60+</div><div class="sl">Frasa</div></div>
-    </div>
-  </div>
-</section>
+<!-- PAGES -->
+<div id="pages">
 
-<!-- ABJAD -->
-<section id="alpha" class="sec sec-dark">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ ABJAD KHMER</div>
-    <h2 class="s-title">Aksara <em>Khmer</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">Aksara Khmer berasal dari aksara Pallawa India Selatan abad ke-7. Terdiri dari 33 konsonan dan 23 vokal. Klik kartu untuk mendengar.</p>
-  </div>
-  <div class="alpha-label reveal">🔤 33 Konsonan Dasar</div>
-  <div class="alpha-grid reveal" id="cGrid"></div>
-  <div class="alpha-label reveal" style="margin-top:3rem">🔡 Vokal Independen</div>
-  <div class="alpha-grid reveal" id="vGrid"></div>
-  <div class="alpha-label reveal" style="margin-top:3rem">🔢 Digit Angka Khmer Asli</div>
-  <div class="alpha-grid reveal" id="dGrid"></div>
-</section>
-
-<!-- KOSAKATA -->
-<section id="vocab" class="sec sec-mid">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ KOSAKATA</div>
-    <h2 class="s-title">Kata-Kata <em>Esensial</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">200+ kosakata dalam 10 kategori. Klik kartu untuk mendengar pengucapan.</p>
-  </div>
-  <div class="vtabs reveal" id="vtabs"></div>
-  <div class="vgrid reveal" id="vgrid"></div>
-</section>
-
-<!-- PERCAKAPAN -->
-<section id="phrases" class="sec sec-dark2">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ PERCAKAPAN</div>
-    <h2 class="s-title">Frasa <em>Sehari-Hari</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">60+ frasa dalam 6 situasi berbeda. Klik kategori untuk membuka.</p>
-  </div>
-  <div class="pacc reveal" id="phraseAcc"></div>
-</section>
-
-<!-- ANGKA -->
-<section id="numbers" class="sec sec-dark">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ ANGKA</div>
-    <h2 class="s-title">Sistem <em>Angka Khmer</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">Angka Khmer dari 0 hingga 1.000.000 lengkap dengan cara baca.</p>
-  </div>
-  <div class="ngrid reveal" id="nGrid"></div>
-</section>
-
-<!-- TATA BAHASA -->
-<section id="grammar" class="sec sec-mid">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ TATA BAHASA</div>
-    <h2 class="s-title">Dasar <em>Tata Bahasa</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">Pahami struktur dasar bahasa Khmer agar kamu bisa membentuk kalimat sendiri.</p>
-  </div>
-  <div class="gram-grid reveal" id="gramGrid"></div>
-</section>
-
-<!-- LAGU -->
-<section id="songs" class="sec sec-dark2">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ LAGU KHMER</div>
-    <h2 class="s-title">Belajar Lewat <em>Musik</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">8 lagu Khmer populer & tradisional — lirik Khmer asli, cara baca, terjemahan Indonesia, dan makna kata per kata.</p>
-  </div>
-  <div class="song-list reveal" id="songGrid"></div>
-</section>
-
-<!-- KUIS -->
-<section id="quiz" class="sec sec-dark">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ KUIS INTERAKTIF</div>
-    <h2 class="s-title">Uji <em>Kemampuanmu</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">20 pertanyaan acak dari semua materi. Seberapa jauh pemahamanmu?</p>
-  </div>
-  <div class="quiz-wrap reveal">
-    <div class="q-prog-bg"><div class="q-prog-fill" id="qprog" style="width:0%"></div></div>
-    <div class="q-score" id="qScore">Pertanyaan 1 dari 20 &nbsp;|&nbsp; Skor: 0</div>
-    <div class="q-box">
-      <div class="q-num" id="qNum">Soal 1</div>
-      <span class="q-kh" id="qK">—</span>
-      <div class="q-lat" id="qL">—</div>
-      <div class="q-hint">Apa artinya kata ini dalam bahasa Indonesia?</div>
-    </div>
-    <div class="q-opts" id="qOpts"></div>
-    <div class="q-feed" id="qFeed"></div>
-    <div style="text-align:center;margin-top:1.5rem">
-      <button class="btn-gold" onclick="nextQ()" id="qNext">Pertanyaan Berikutnya →</button>
-      <button class="btn-out" onclick="resetQ()" style="margin-left:1rem">🔄 Mulai Ulang</button>
+<!-- ===== HOME ===== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-bg"></div><div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-brand">AL JUNIOR</div>
+      <div class="hero-badge">✦ PANDUAN LENGKAP BAHASA KHMER ✦</div>
+      <h1 class="hero-title">Belajar Bahasa<span class="hero-kh">ខ្មែរ</span></h1>
+      <p class="hero-tag">"Warisan Angkor Wat ada di setiap kata yang kamu ucapkan"</p>
+      <p class="hero-desc">Website belajar bahasa Khmer paling lengkap — abjad, kosakata sehari-hari (salam, makanan, minuman, pertanyaan, dll), percakapan, angka urut lengkap, tata bahasa, lagu, dan fitur karaoke YouTube. Semua dengan cara baca persis logat Khmer asli.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="nav('alpha')">🔤 Mulai dari Abjad</button>
+        <button class="btn-out" onclick="nav('phrases')">💬 Percakapan Harian</button>
+      </div>
+      <p style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:var(--t4);margin-bottom:1rem">— PILIH KATEGORI KOSAKATA —</p>
+      <div class="hero-cats" id="heroCats"></div>
+      <div class="hero-stats">
+        <div><div class="sn">33</div><div class="sl">Konsonan</div></div>
+        <div><div class="sn">300+</div><div class="sl">Kosakata</div></div>
+        <div><div class="sn">8</div><div class="sl">Lagu</div></div>
+        <div><div class="sn">100+</div><div class="sl">Frasa</div></div>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- PERIBAHASA -->
-<section id="proverbs" class="sec sec-mid">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ PERIBAHASA</div>
-    <h2 class="s-title">Kata Bijak <em>Leluhur Khmer</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">Kebijaksanaan yang diwariskan selama berabad-abad dari peradaban Angkor.</p>
+<!-- ===== ABJAD ===== -->
+<div class="page" id="page-alpha">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ ABJAD KHMER</div>
+      <h2 class="s-title">Aksara <em>Khmer</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Aksara Khmer berasal dari India Selatan abad ke-7. Ada 33 konsonan dan 23 vokal. Klik kartu untuk mendengar pengucapan persis logat Khmer asli.</p>
+    </div>
+    <div class="alpha-label">🔤 33 Konsonan Dasar</div>
+    <div class="alpha-grid" id="cGrid"></div>
+    <div class="alpha-label" style="margin-top:2.5rem">🔡 Vokal Independen</div>
+    <div class="alpha-grid" id="vGrid"></div>
+    <div class="alpha-label" style="margin-top:2.5rem">🔢 Digit Angka Khmer</div>
+    <div class="alpha-grid" id="dGrid"></div>
   </div>
-  <div class="prov-grid reveal" id="provGrid"></div>
-</section>
+</div>
 
-<!-- BUDAYA -->
-<section id="culture" class="sec sec-dark2">
-  <div class="sec-head reveal">
-    <div class="s-tag">✦ BUDAYA & TRADISI</div>
-    <h2 class="s-title">Kebudayaan <em>Khmer</em></h2>
-    <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-    <p class="s-desc">Jelajahi kekayaan budaya, tradisi, dan warisan peradaban Khmer yang agung.</p>
+<!-- ===== VOCAB ===== -->
+<div class="page" id="page-vocab">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ KOSAKATA</div>
+      <h2 class="s-title" id="vocabTitle">Kosakata <em>Khmer</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Klik kartu untuk mendengar pengucapan logat Khmer asli. Klik tab untuk ganti kategori.</p>
+    </div>
+    <div class="vtabs" id="vtabs"></div>
+    <div class="vgrid" id="vgrid"></div>
   </div>
-  <div class="cult-grid reveal" id="cultGrid"></div>
-</section>
+</div>
+
+<!-- ===== PHRASES ===== -->
+<div class="page" id="page-phrases">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ PERCAKAPAN SEHARI-HARI</div>
+      <h2 class="s-title">Frasa <em>Harian</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">100+ frasa siap pakai dalam 6 situasi. Klik baris mana saja untuk mendengar pengucapan logat Khmer asli.</p>
+    </div>
+    <div class="pacc" id="phraseAcc"></div>
+  </div>
+</div>
+
+<!-- ===== NUMBERS ===== -->
+<div class="page" id="page-numbers">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ ANGKA KHMER</div>
+      <h2 class="s-title">Angka <em>Lengkap</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Angka Khmer dari 0 sampai 1 juta secara berurut, tidak ada yang loncat. Klik kartu untuk mendengar.</p>
+    </div>
+    <div class="num-info">
+      <strong>Cara membentuk angka Khmer:</strong><br>
+      • <strong>1–9:</strong> muoy, pii, bei, buon, pram, pram-muoy, pram-pii, pram-bei, pram-buon<br>
+      • <strong>10–19:</strong> dob + angka (dob-muoy=11, dob-pii=12, dst)<br>
+      • <strong>20:</strong> mpei | <strong>21–29:</strong> mpei + angka<br>
+      • <strong>30:</strong> saam-seb | <strong>40:</strong> sae-seb | <strong>50:</strong> haa-seb | dst<br>
+      • <strong>100:</strong> roi | <strong>1.000:</strong> poan | <strong>10.000:</strong> meun | <strong>100.000:</strong> saen | <strong>1.000.000:</strong> lean
+    </div>
+    <div id="numContainer"></div>
+  </div>
+</div>
+
+<!-- ===== GRAMMAR ===== -->
+<div class="page" id="page-grammar">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ TATA BAHASA</div>
+      <h2 class="s-title">Dasar <em>Tata Bahasa</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Pahami struktur dasar bahasa Khmer agar bisa membentuk kalimat sendiri.</p>
+    </div>
+    <div class="gram-grid" id="gramGrid"></div>
+  </div>
+</div>
+
+<!-- ===== SONGS ===== -->
+<div class="page" id="page-songs">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ LAGU KHMER</div>
+      <h2 class="s-title">Belajar Lewat <em>Musik</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">8 lagu Khmer — lirik asli, cara baca (logat Khmer), terjemahan Indonesia, dan catatan arti kata per kata.</p>
+    </div>
+    <div class="song-list" id="songGrid"></div>
+  </div>
+</div>
+
+<!-- ===== KARAOKE ===== -->
+<div class="page" id="page-karaoke">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ KARAOKE YOUTUBE</div>
+      <h2 class="s-title">Nyanyi dengan <em>Lirik Sinkron</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Paste link YouTube lagu Khmer, lalu tekan Play. Lirik Khmer + cara baca akan menyala sesuai waktu lagu — seperti karaoke sungguhan!</p>
+    </div>
+
+    <!-- URL INPUT -->
+    <div class="yt-section">
+      <div class="yt-title">🎬 Langkah 1: Paste link YouTube lagu Khmer</div>
+      <div class="yt-input-row">
+        <input class="yt-input" id="ytUrl" type="text" placeholder="Contoh: https://www.youtube.com/watch?v=XXXXXXXXX">
+        <button class="btn-gold" onclick="loadYT()">▶ Load Video</button>
+        <button class="btn-out" onclick="clearYT()">✕ Clear</button>
+      </div>
+      <div id="ytStatus" class="yt-status">💡 Tip: Buka YouTube, cari lagu Khmer, salin link-nya, paste di sini.</div>
+    </div>
+
+    <!-- VIDEO PLAYER -->
+    <div id="ytPlayerWrap" style="display:none;margin-bottom:1.5rem">
+      <div style="width:100%;max-width:720px;margin:0 auto">
+        <div id="ytPlayer"></div>
+      </div>
+    </div>
+
+    <!-- SONG SELECTOR -->
+    <div class="yt-section">
+      <div class="yt-title">🎵 Langkah 2: Pilih lagu untuk lirik sinkron</div>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem" id="kSongBtns"></div>
+      <div class="yt-controls">
+        <button class="btn-gold" onclick="startKaraoke()" id="karaokeStartBtn">▶ Mulai Karaoke</button>
+        <button class="btn-out" onclick="stopKaraoke()">⏹ Stop</button>
+        <span class="yt-status" id="karaokeStatus">Pilih lagu di atas, lalu tekan Mulai Karaoke</span>
+      </div>
+    </div>
+
+    <!-- LYRICS DISPLAY -->
+    <div class="yt-section">
+      <div class="yt-title">🎤 Lirik Sinkron</div>
+      <div style="font-size:.75rem;color:var(--t4);margin-bottom:1rem">Baris yang berwarna emas = baris yang sedang dinyanyikan. Klik baris untuk loncat ke waktu tersebut.</div>
+      <div style="display:grid;grid-template-columns:55px 1fr 1fr 1fr;gap:.5rem;padding:.5rem 1rem;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);border-bottom:1px solid rgba(255,215,0,.15);margin-bottom:.5rem">
+        <span>Waktu</span><span>Khmer</span><span>Cara Baca</span><span>Artinya</span>
+      </div>
+      <div class="lyrics-sync" id="lyricsSync"></div>
+    </div>
+
+    <!-- MANUAL KARAOKE BUILDER -->
+    <div class="yt-section">
+      <div class="yt-title">✏️ Tambah Lagu Custom (Opsional)</div>
+      <p style="font-size:.82rem;color:var(--t4);margin-bottom:1rem">Kamu bisa tambahkan lagu sendiri dengan memasukkan lirik + waktu (detik) secara manual.</p>
+      <div id="customLyricRows"></div>
+      <div style="display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap">
+        <button class="btn-out" onclick="addCustomRow()">+ Tambah Baris</button>
+        <button class="btn-gold" onclick="saveCustomSong()">💾 Simpan Lagu Custom</button>
+        <button class="btn-out" onclick="clearCustom()">✕ Reset</button>
+      </div>
+      <div style="margin-top:.8rem">
+        <input class="yt-input" id="customSongTitle" placeholder="Nama lagu custom kamu..." style="max-width:300px">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div class="page" id="page-quiz">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ KUIS INTERAKTIF</div>
+      <h2 class="s-title">Uji <em>Kemampuanmu</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">20 pertanyaan acak dari semua materi. Seberapa jauh pemahamanmu?</p>
+    </div>
+    <div class="quiz-wrap">
+      <div class="q-prog-bg"><div class="q-prog-fill" id="qprog" style="width:0%"></div></div>
+      <div class="q-score" id="qScore">Pertanyaan 1 dari 20 &nbsp;|&nbsp; Skor: 0</div>
+      <div class="q-box">
+        <div class="q-num" id="qNum">Soal 1</div>
+        <span class="q-kh" id="qK">—</span>
+        <div class="q-lat" id="qL">—</div>
+        <div class="q-hint">Apa artinya kata ini dalam bahasa Indonesia?</div>
+      </div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-feed" id="qFeed"></div>
+      <div style="text-align:center;margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn-gold" onclick="nextQ()" id="qNext">Pertanyaan Berikutnya →</button>
+        <button class="btn-out" onclick="resetQ()">🔄 Mulai Ulang</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROVERBS (bawah SONGS) ===== -->
+<div class="page" id="page-proverbs">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ PERIBAHASA</div>
+      <h2 class="s-title">Kata Bijak <em>Leluhur Khmer</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+    </div>
+    <div class="prov-grid" id="provGrid"></div>
+  </div>
+</div>
+
+<!-- ===== CULTURE ===== -->
+<div class="page" id="page-culture">
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="s-tag">✦ BUDAYA & TRADISI</div>
+      <h2 class="s-title">Kebudayaan <em>Khmer</em></h2>
+      <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
+      <p class="s-desc">Jelajahi kekayaan budaya dan warisan peradaban Khmer yang agung.</p>
+    </div>
+    <div class="cult-grid" id="cultGrid"></div>
+  </div>
+</div>
+
+</div><!-- /pages -->
 
 <footer>
+  <div class="ft-brand">AL JUNIOR</div>
   <div class="ft-kh">ខ្មែរ</div>
-  <div class="ft-name">ROYAL KHMER LEARNING</div>
   <p>Website belajar bahasa Khmer terlengkap dalam bahasa Indonesia</p>
-  <p style="opacity:.4;font-size:.78rem;margin-top:.3rem">Warisan Angkor Wat · Peradaban Khmer · Bahasa Kamboja</p>
-  <div class="orn" style="margin-top:2rem"><div class="ol"></div><div class="od"></div><div class="ol r"></div></div>
-  <div class="ft-links">
-    <a href="#alpha">Abjad</a><a href="#vocab">Kosakata</a><a href="#phrases">Percakapan</a>
-    <a href="#numbers">Angka</a><a href="#grammar">Tata Bahasa</a><a href="#songs">Lagu</a>
-    <a href="#quiz">Kuis</a><a href="#proverbs">Peribahasa</a><a href="#culture">Budaya</a>
-  </div>
+  <p style="opacity:.4;font-size:.75rem;margin-top:.3rem">Warisan Angkor Wat · Peradaban Khmer · Bahasa Kamboja</p>
 </footer>
 
 <div class="toast" id="toast"></div>
 
+<!-- YouTube API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
