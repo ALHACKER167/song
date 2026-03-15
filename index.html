@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ខ្មែរ Beautiful — Belajar Bahasa & Lagu Khmer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Serif+Khmer:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4AF37;
+  --gold-light: #F5D76E;
+  --gold-dark: #A0821A;
+  --crimson: #8B1A1A;
+  --crimson-light: #C0392B;
+  --ivory: #FAF5E9;
+  --ivory-dark: #EDE0C4;
+  --dark: #0D0A06;
+  --dark2: #1A1208;
+  --dark3: #241A0A;
+  --text-light: #F5EDD8;
+  --text-muted: #BFA96A;
+  --shadow-gold: 0 0 30px rgba(212,175,55,0.3);
+  --shadow-deep: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--text-light);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ===== SPLASH SCREEN ===== */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--dark);
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+#splash.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,175,55,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(139,26,26,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(212,175,55,0.08) 0%, transparent 60%);
+  animation: splashPulse 3s ease-in-out infinite;
+}
+
+@keyframes splashPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.splash-content {
+  position: relative;
+  text-align: center;
+  animation: splashFadeIn 1.5s ease forwards;
+}
+
+@keyframes splashFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-title {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 60px rgba(212,175,55,0.5), 0 0 120px rgba(212,175,55,0.2);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.splash-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  color: var(--ivory-dark);
+  margin-top: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.8s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.2s forwards;
+}
+
+.ornament-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ornament-diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.splash-enter-btn {
+  margin-top: 2.5rem;
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  color: var(--dark);
+  border: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: var(--shadow-gold);
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.6s forwards;
+}
+
+.splash-enter-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(212,175,55,0.5);
+}
+
+/* Decorative petals */
+.petal {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+  opacity: 0.4;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+  50% { transform: translateY(-20px) rotate(180deg); opacity: 0.6; }
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  background: rgba(13, 10, 6, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
+.nav-logo {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(212,175,55,0.4);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+  border-color: rgba(212,175,55,0.3);
+  background: rgba(212,175,55,0.05);
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 4rem;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1600&auto=format') center/cover no-repeat,
+    linear-gradient(135deg, #0D0A06 0%, #241A0A 50%, #0D0A06 100%);
+  background-blend-mode: multiply;
+  opacity: 0.3;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 50%, rgba(212,175,55,0.05) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(13,10,6,0.3) 0%, rgba(13,10,6,0.7) 100%);
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ivory);
+  margin-bottom: 0.5rem;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.hero-title span {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+  font-family: 'Noto Serif Khmer', serif;
+  text-shadow: var(--shadow-gold);
+}
+
+.hero-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 1.5rem auto;
+  line-height: 1.8;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+  animation: fadeUp 0.8s ease 0.8s both;
+}
+
+.btn-primary {
+  padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--dark);
+  border: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 35px rgba(212,175,55,0.4);
+}
+
+.btn-outline {
+  padding: 0.9rem 2.5rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.5);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline:hover {
+  background: rgba(212,175,55,0.1);
+  border-color: var(--gold);
+}
+
+/* ===== SECTION STYLING ===== */
+section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--ivory);
+  line-height: 1.1;
+}
+
+.section-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.divider-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.divider-line.right {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* ===== ALPHABET SECTION ===== */
+.alphabet-section {
+  background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 50%, var(--dark) 100%);
+}
+
+.alphabet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.letter-card {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+  border: 1px solid rgba(212,175,55,0.15);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.letter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.letter-card:hover {
+  border-color: rgba(212,175,55,0.5);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.1);
+}
+
+.letter-card:hover::before { opacity: 1; }
+
+.letter-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(212,175,55,0.3);
+}
+
+.letter-latin {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+  letter-spacing: 0.05em;
+}
+
+.letter-example {
+  font-size: 0.75rem;
+  color: rgba(250,245,233,0.5);
+  margin-top: 0.2rem;
+}
+
+/* ===== VOCABULARY ===== */
+.vocab-section {
+  background: var(--dark3);
+  border-radius: 20px;
+  padding: 4rem 3rem;
+  margin: 2rem 0;
+}
+
+.vocab-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: var(--gold);
+  color: var(--dark);
+  border-color: var(--gold);
+  font-weight: 600;
+}
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.vocab-card {
+  background: rgba(212,175,55,0.04);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.vocab-card:hover {
+  border-color: rgba(212,175,55,0.4);
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.vocab-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.vocab-latin {
+  font-size: 1rem;
+  color: var(--ivory-dark);
+  font-style: italic;
+}
+
+.vocab-meaning {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.vocab-example {
+  font-size: 0.8rem;
+  color: rgba(250,245,233,0.4);
+  border-top: 1px solid rgba(212,175,55,0.1);
+  padding-top: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.speak-btn {
+  align-self: flex-start;
+  padding: 0.3rem 0.8rem;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--gold);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.speak-btn:hover {
+  background: rgba(212,175,55,0.2);
+}
+
+/* ===== PHRASES ===== */
+.phrase-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.phrase-item {
+  background: rgba(212,175,55,0.03);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.phrase-header {
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.phrase-header:hover {
+  background: rgba(212,175,55,0.06);
+}
+
+.phrase-category {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.phrase-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ivory);
+  margin-top: 0.2rem;
+}
+
+.phrase-chevron {
+  color: var(--gold);
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.phrase-item.open .phrase-chevron { transform: rotate(180deg); }
+
+.phrase-body {
+  display: none;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.phrase-item.open .phrase-body { display: block; }
+
+.phrase-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(212,175,55,0.06);
+  align-items: center;
+}
+
+.phrase-row:last-child { border-bottom: none; }
+
+.ph-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+.ph-read {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.ph-indo {
+  color: var(--ivory-dark);
+  font-size: 0.9rem;
+}
+
+/* ===== SONG SECTION ===== */
+.songs-section {
+  background: linear-gradient(135deg, var(--dark2) 0%, rgba(139,26,26,0.1) 50%, var(--dark2) 100%);
+  border-radius: 20px;
+  padding: 4rem 3rem;
+  margin: 2rem 0;
+}
+
+.song-player-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.song-card {
+  background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(139,26,26,0.06));
+  border: 1px solid rgba(212,175,55,0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.4s;
+}
+
+.song-card:hover {
+  border-color: rgba(212,175,55,0.35);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(212,175,55,0.08);
+}
+
+.song-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.song-cover {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--crimson));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.song-info h3 {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.song-info h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--ivory-dark);
+  font-weight: 400;
+  margin-top: 0.2rem;
+}
+
+.song-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+.lyrics-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .lyrics-container { grid-template-columns: 1fr; }
+  .phrase-row { grid-template-columns: 1fr 1fr; }
+  .ph-indo { display: none; }
+  nav { padding: 0.8rem 1rem; }
+  .nav-links { display: none; }
+}
+
+.lyrics-col h5 {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212,175,55,0.15);
+}
+
+.lyric-line {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(212,175,55,0.06);
+  line-height: 1.7;
+}
+
+.lyric-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  color: var(--gold-light);
+  font-size: 1.05rem;
+  display: block;
+}
+
+.lyric-read {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+  display: block;
+  margin-top: 0.1rem;
+}
+
+.lyric-indo {
+  color: var(--ivory-dark);
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* ===== QUIZ SECTION ===== */
+.quiz-section {
+  background: var(--dark2);
+  border-radius: 20px;
+  padding: 4rem 3rem;
+}
+
+.quiz-box {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz-question {
+  background: rgba(212,175,55,0.05);
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.quiz-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 4rem;
+  color: var(--gold);
+  text-shadow: var(--shadow-gold);
+  display: block;
+}
+
+.quiz-latin {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.quiz-option {
+  padding: 1rem;
+  background: rgba(212,175,55,0.04);
+  border: 1px solid rgba(212,175,55,0.15);
+  border-radius: 10px;
+  color: var(--ivory);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.quiz-option:hover {
+  background: rgba(212,175,55,0.1);
+  border-color: rgba(212,175,55,0.4);
+  transform: translateY(-2px);
+}
+
+.quiz-option.correct {
+  background: rgba(40,167,69,0.2);
+  border-color: #28a745;
+  color: #5cdb5c;
+}
+
+.quiz-option.wrong {
+  background: rgba(220,53,69,0.2);
+  border-color: #dc3545;
+  color: #ff6b6b;
+}
+
+.quiz-score {
+  font-size: 1.2rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.quiz-feedback {
+  min-height: 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* ===== NUMBERS SECTION ===== */
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.number-card {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.number-card:hover {
+  border-color: rgba(212,175,55,0.4);
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-4px);
+}
+
+.num-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+}
+
+.num-khmer {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin: 0.3rem 0;
+}
+
+.num-read {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ===== CULTURE SECTION ===== */
+.culture-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.culture-card {
+  background: linear-gradient(160deg, rgba(212,175,55,0.06) 0%, rgba(139,26,26,0.04) 100%);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.4s;
+}
+
+.culture-card:hover {
+  border-color: rgba(212,175,55,0.3);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-deep);
+}
+
+.culture-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.culture-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--ivory);
+  margin-bottom: 0.8rem;
+}
+
+.culture-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-section {
+  background: rgba(212,175,55,0.03);
+  border: 1px solid rgba(212,175,55,0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.progress-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--ivory);
+  margin-bottom: 1.5rem;
+}
+
+.progress-item {
+  margin-bottom: 1.2rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.progress-bar-bg {
+  background: rgba(212,175,55,0.1);
+  border-radius: 100px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  border-radius: 100px;
+  transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--dark2);
+  border-top: 1px solid rgba(212,175,55,0.1);
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 100%;
+}
+
+.footer-logo {
+  font-family: 'Noto Serif Khmer', serif;
+  font-size: 2rem;
+  color: var(--gold);
+  text-shadow: var(--shadow-gold);
+  margin-bottom: 1rem;
+}
+
+footer p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--gold);
+  color: var(--dark);
+  padding: 0.8rem 2rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 9000;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== DECORATIVE ===== */
+.full-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+  margin: 4rem 0;
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-bg"></div>
+  
+  <!-- Floating petals -->
+  <div class="petal" style="top:20%;left:15%;animation-delay:0s;animation-duration:7s"></div>
+  <div class="petal" style="top:70%;left:10%;animation-delay:2s;animation-duration:5s"></div>
+  <div class="petal" style="top:30%;right:12%;animation-delay:1s;animation-duration:8s"></div>
+  <div class="petal" style="top:80%;right:20%;animation-delay:3s;animation-duration:6s"></div>
+  <div class="petal" style="top:50%;left:50%;animation-delay:1.5s;animation-duration:9s"></div>
+  <div class="petal" style="top:10%;right:40%;animation-delay:0.5s;animation-duration:7s;width:10px;height:10px;opacity:0.2"></div>
+  
+  <div class="splash-content">
+    <div class="splash-title">ខ្មែរ</div>
+    <div class="splash-subtitle">Bahasa Kerajaan Angkor Wat</div>
+    <div class="splash-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.9rem;letter-spacing:0.1em;margin-bottom:0.5rem">Temukan keindahan bahasa Kamboja</p>
+    <p style="color:rgba(191,169,106,0.6);font-size:0.8rem">Belajar · Memahami · Berbicara</p>
+    <button class="splash-enter-btn" onclick="enterSite()">✦ Mulai Belajar ✦</button>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-logo">ខ្មែរ</div>
+  <ul class="nav-links">
+    <li><a href="#alphabet">Abjad</a></li>
+    <li><a href="#vocab">Kosakata</a></li>
+    <li><a href="#phrases">Percakapan</a></li>
+    <li><a href="#numbers">Angka</a></li>
+    <li><a href="#songs">Lagu</a></li>
+    <li><a href="#quiz">Kuis</a></li>
+    <li><a href="#culture">Budaya</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ &nbsp; Panduan Lengkap Bahasa Khmer &nbsp; ✦</div>
+    <h1 class="hero-title">
+      Belajar Bahasa
+      <span>ខ្មែរ</span>
+    </h1>
+    <p class="hero-desc">
+      Jelajahi bahasa Kamboja yang kaya — dari abjad kuno, kosakata sehari-hari, hingga lagu-lagu tradisional yang indah. Warisan budaya Angkor Wat ada di setiap katanya.
+    </p>
+    <div class="hero-cta">
+      <a href="#alphabet" class="btn-primary">Mulai Belajar</a>
+      <a href="#songs" class="btn-outline">🎵 Lagu Khmer</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT WRAPPER -->
+<main style="background:var(--dark);">
+
+<!-- ===== ALPHABET SECTION ===== -->
+<section id="alphabet" class="alphabet-section" style="max-width:100%;padding:5rem 4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Abjad</span>
+    <h2 class="section-title">Aksara <em>Khmer</em></h2>
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="ornament-diamond" style="width:6px;height:6px;background:var(--gold);transform:rotate(45deg)"></div>
+      <div class="divider-line right"></div>
+    </div>
+    <p style="margin-top:1rem;color:var(--text-muted);max-width:600px;margin-left:auto;margin-right:auto;line-height:1.8">
+      Bahasa Khmer memiliki 33 konsonan dan 23 vokal. Klik kartu untuk mendengar pengucapannya.
+    </p>
+  </div>
+
+  <div style="max-width:1200px;margin:0 auto;">
+    <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:1.5rem;font-size:1.2rem;opacity:0.8">— Konsonan —</h3>
+    <div class="alphabet-grid reveal" id="consonants"></div>
+
+    <div class="full-divider"></div>
+
+    <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:1.5rem;font-size:1.2rem;opacity:0.8">— Vokal —</h3>
+    <div class="alphabet-grid reveal" id="vowels"></div>
+  </div>
+</section>
+
+<div class="full-divider" style="max-width:1200px;margin:0 auto;"></div>
+
+<!-- ===== VOCABULARY SECTION ===== -->
+<section id="vocab" style="max-width:100%;padding:5rem 4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Kosakata</span>
+    <h2 class="section-title">Kata-Kata <em>Dasar</em></h2>
+  </div>
+
+  <div class="vocab-section reveal" style="max-width:1200px;margin:0 auto;">
+    <div class="vocab-tabs">
+      <button class="tab-btn active" onclick="showVocab('salam')">Salam</button>
+      <button class="tab-btn" onclick="showVocab('keluarga')">Keluarga</button>
+      <button class="tab-btn" onclick="showVocab('makanan')">Makanan</button>
+      <button class="tab-btn" onclick="showVocab('tempat')">Tempat</button>
+      <button class="tab-btn" onclick="showVocab('warna')">Warna</button>
+      <button class="tab-btn" onclick="showVocab('alam')">Alam</button>
+      <button class="tab-btn" onclick="showVocab('tubuh')">Tubuh</button>
+      <button class="tab-btn" onclick="showVocab('waktu')">Waktu</button>
+    </div>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </div>
+</section>
+
+<!-- ===== PHRASES SECTION ===== -->
+<section id="phrases" style="max-width:1200px;padding:5rem 4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Percakapan</span>
+    <h2 class="section-title">Frasa <em>Sehari-Hari</em></h2>
+  </div>
+
+  <div class="phrase-accordion reveal" id="phrase-accordion"></div>
+</section>
+
+<!-- ===== NUMBERS SECTION ===== -->
+<section id="numbers" style="max-width:100%;padding:5rem 4rem;background:var(--dark2);">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Angka</span>
+    <h2 class="section-title">Angka dalam <em>Khmer</em></h2>
+  </div>
+  <div class="numbers-grid reveal" style="max-width:1200px;margin:0 auto;" id="numbers-grid"></div>
+</section>
+
+<!-- ===== SONGS SECTION ===== -->
+<section id="songs" style="max-width:100%;padding:5rem 4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Lagu</span>
+    <h2 class="section-title">Belajar Melalui <em>Lagu</em></h2>
+    <p style="margin-top:1rem;color:var(--text-muted);max-width:600px;margin-left:auto;margin-right:auto;line-height:1.8">
+      Cara terbaik belajar bahasa adalah melalui musik. Pelajari lirik lagu Khmer populer lengkap dengan transliterasi dan terjemahan.
+    </p>
+  </div>
+
+  <div class="song-player-grid reveal" style="max-width:1200px;margin:0 auto;" id="songs-container"></div>
+</section>
+
+<!-- ===== QUIZ SECTION ===== -->
+<section id="quiz" style="max-width:100%;padding:5rem 4rem;background:var(--dark2);">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Kuis</span>
+    <h2 class="section-title">Uji <em>Kemampuan</em></h2>
+  </div>
+  <div class="quiz-section reveal" style="max-width:800px;margin:0 auto;">
+    <div class="quiz-box">
+      <div class="quiz-score" id="quiz-score">Skor: 0 / 0</div>
+      <div class="quiz-question" id="quiz-question">
+        <span class="quiz-khmer" id="qKhmer">—</span>
+        <span class="quiz-latin" id="qLatin">—</span>
+      </div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="btn-primary" onclick="nextQuestion()" style="margin-top:1rem" id="next-btn">Pertanyaan Berikutnya →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CULTURE SECTION ===== -->
+<section id="culture" style="max-width:1200px;padding:5rem 4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">✦ Budaya</span>
+    <h2 class="section-title">Budaya & Tradisi <em>Khmer</em></h2>
+  </div>
+  <div class="culture-grid reveal" id="culture-grid"></div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ខ្មែរ Beautiful</div>
+  <p>Website belajar bahasa Khmer — warisan budaya Angkor Wat</p>
+  <p style="margin-top:0.5rem;opacity:0.5;font-size:0.75rem">Dibuat dengan ❤ untuk para pelajar bahasa Kamboja</p>
+  <div class="section-divider" style="margin-top:1.5rem;">
+    <div class="divider-line"></div>
+    <div class="ornament-diamond" style="width:6px;height:6px;background:var(--gold);transform:rotate(45deg)"></div>
+    <div class="divider-line right"></div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== SPLASH =====
+function enterSite() {
+  document.getElementById('splash').classList.add('hide');
+  window.scrollTo(0,0);
+}
+setTimeout(() => {
+  const btn = document.querySelector('.splash-enter-btn');
+  if(btn) btn.style.opacity = '1';
+}, 2000);
+
+// ===== DATA =====
+const consonants = [
+  {k:'ក', l:'Ka', ex:'ក្ដៅ (hot)'},
+  {k:'ខ', l:'Kha', ex:'ខ្ទឹម (garlic)'},
+  {k:'គ', l:'Ko', ex:'គោ (cow)'},
+  {k:'ឃ', l:'Kho', ex:'ឃ្លាំ (watch)'},
+  {k:'ង', l:'Ngo', ex:'ងូត (bathe)'},
+  {k:'ច', l:'Cha', ex:'ចៃ (ant)'},
+  {k:'ឆ', l:'Chha', ex:'ឆ្ងុយ (delicious)'},
+  {k:'ជ', l:'Cho', ex:'ជោគ (destiny)'},
+  {k:'ឈ', l:'Chho', ex:'ឈ្នះ (win)'},
+  {k:'ញ', l:'Nyo', ex:'ញ៉ាំ (eat)'},
+  {k:'ដ', l:'Da', ex:'ដើម (tree)'},
+  {k:'ឋ', l:'Tha', ex:'ឋាន (place)'},
+  {k:'ឌ', l:'Do', ex:'ឌូ (flute)'},
+  {k:'ឍ', l:'Tho', ex:'—'},
+  {k:'ណ', l:'Na', ex:'ណែ (advise)'},
+  {k:'ត', l:'Ta', ex:'ទួល (hill)'},
+  {k:'ថ', l:'Tha', ex:'ថ្ងៃ (day)'},
+  {k:'ទ', l:'To', ex:'ទឹក (water)'},
+  {k:'ធ', l:'Tho', ex:'ធ្លាក់ (fall)'},
+  {k:'ន', l:'No', ex:'ន័យ (meaning)'},
+  {k:'ប', l:'Ba', ex:'បាយ (rice)'},
+  {k:'ផ', l:'Pha', ex:'ផ្ទះ (house)'},
+  {k:'ព', l:'Po', ex:'ពេល (time)'},
+  {k:'ភ', l:'Pho', ex:'ភ្លៀង (rain)'},
+  {k:'ម', l:'Mo', ex:'ម្ហូប (food)'},
+  {k:'យ', l:'Yo', ex:'យប់ (night)'},
+  {k:'រ', l:'Ro', ex:'រៀន (learn)'},
+  {k:'ល', l:'Lo', ex:'លើ (above)'},
+  {k:'វ', l:'Vo', ex:'វ័យ (age)'},
+  {k:'ស', l:'Sa', ex:'ស្នេហ៍ (love)'},
+  {k:'ហ', l:'Ha', ex:'ហូប (eat)'},
+  {k:'ឡ', l:'La', ex:'ឡើង (go up)'},
+  {k:'អ', l:'A', ex:'អរគុណ (thanks)'},
+];
+
+const vowels = [
+  {k:'ា', l:'aa', ex:'ចាន (plate)'},
+  {k:'ិ', l:'e', ex:'ទិញ (buy)'},
+  {k:'ី', l:'ii', ex:'ស្រី (woman)'},
+  {k:'ុ', l:'o', ex:'ភ្លុក (hollow)'},
+  {k:'ូ', l:'uu', ex:'ខ្លូត (thin)'},
+  {k:'ួ', l:'ua', ex:'ឃ្លួន (body)'},
+  {k:'ើ', l:'ae', ex:'ស្ទើរ (almost)'},
+  {k:'ឹ', l:'oe', ex:'ស្ទឹង (river)'},
+  {k:'ែ', l:'ae', ex:'ថ្ងែ (bright)'},
+  {k:'ៃ', l:'ai', ex:'ថ្ងៃ (day)'},
+  {k:'ោ', l:'oo', ex:'ព្រោះ (because)'},
+  {k:'ៅ', l:'au', ex:'ក្ដៅ (hot)'},
+  {k:'ុំ', l:'om', ex:'ចុំ (boil)'},
+  {k:'ំ', l:'m', ex:'ចំ (accurate)'},
+  {k:'ាំ', l:'am', ex:'ហ្នាំ (custom)'},
+  {k:'ាំ', l:'am', ex:'ម្ដាំ (cook)'},
+];
+
+// Build consonants
+const cGrid = document.getElementById('consonants');
+consonants.forEach(c => {
+  cGrid.innerHTML += `<div class="letter-card" onclick="speakKhmer('${c.l}')">
+    <span class="letter-khmer">${c.k}</span>
+    <div class="letter-latin">${c.l}</div>
+    <div class="letter-example">${c.ex}</div>
+  </div>`;
+});
+
+// Build vowels
+const vGrid = document.getElementById('vowels');
+vowels.forEach(v => {
+  vGrid.innerHTML += `<div class="letter-card" onclick="speakKhmer('${v.l}')">
+    <span class="letter-khmer">${v.k}</span>
+    <div class="letter-latin">${v.l}</div>
+    <div class="letter-example">${v.ex}</div>
+  </div>`;
+});
+
+// ===== VOCABULARY DATA =====
+const vocabData = {
+  salam: [
+    {k:'សួស្តី', l:'Suos-dei', m:'Halo / Selamat', ex:'សួស្តី! មានអ្វីជួយ? — Halo! Ada yang bisa bantu?'},
+    {k:'អរគុណ', l:'Ar-kun', m:'Terima kasih', ex:'អរគុណច្រើន! — Terima kasih banyak!'},
+    {k:'សូមទោស', l:'Soum-toh', m:'Maaf / Permisi', ex:'សូមទោស ខ្ញុំមិនយល់ — Maaf, saya tidak mengerti'},
+    {k:'លាហើយ', l:'Lia-haey', m:'Selamat tinggal', ex:'លាហើយ! ជួបគ្នាស្អែក — Selamat tinggal! Ketemu besok'},
+    {k:'ចាស / បាទ', l:'Chas / Bat', m:'Ya (wanita/pria)', ex:'បាទ ខ្ញុំចូលចិត្ត — Ya, saya suka'},
+    {k:'ទេ', l:'Te', m:'Tidak', ex:'ទេ អរគុណ — Tidak, terima kasih'},
+    {k:'ម្នាក់ឯង', l:'Mnak-eng', m:'Sendiri saja', ex:'ខ្ញុំម្នាក់ឯង — Saya sendiri saja'},
+    {k:'ខ្ញុំ', l:'Khnhom', m:'Saya / Aku', ex:'ខ្ញុំជាគ្រូ — Saya adalah guru'},
+  ],
+  keluarga: [
+    {k:'ម្ដាយ', l:'M\'day', m:'Ibu', ex:'ម្ដាយខ្ញុំស្រឡាញ់ខ្ញុំ — Ibuku mencintaiku'},
+    {k:'ឪពុក', l:'Ov-pok', m:'Ayah', ex:'ឪពុកខ្ញុំជាវេជ្ជបណ្ឌិត — Ayahku adalah dokter'},
+    {k:'បង', l:'Bong', m:'Kakak', ex:'បងខ្ញុំ — Kakak saya'},
+    {k:'អូន', l:'Oun', m:'Adik', ex:'អូនស្រី — Adik perempuan'},
+    {k:'កូន', l:'Koun', m:'Anak', ex:'កូនខ្ញុំ — Anak saya'},
+    {k:'ប្ដី', l:'B\'dei', m:'Suami', ex:'ប្ដីខ្ញុំ — Suami saya'},
+    {k:'ប្រពន្ធ', l:'Bra-pon', m:'Istri', ex:'ប្រពន្ធខ្ញុំ — Istri saya'},
+    {k:'ជីដូន', l:'Chi-don', m:'Nenek', ex:'ជីដូន — Nenek'},
+  ],
+  makanan: [
+    {k:'បាយ', l:'Bay', m:'Nasi', ex:'ញ៉ាំបាយ — Makan nasi'},
+    {k:'ម្ហូប', l:'Mhoup', m:'Makanan / Lauk', ex:'ម្ហូបឆ្ងុយ — Makanan lezat'},
+    {k:'ទឹក', l:'Tik', m:'Air', ex:'ទឹកត្រជាក់ — Air dingin'},
+    {k:'ត្រី', l:'Trei', m:'Ikan', ex:'ត្រីអន្ទង់ — Ikan gabus'},
+    {k:'ស្ករ', l:'S\'kor', m:'Gula', ex:'ស្ករពណ៌ — Gula berwarna'},
+    {k:'ក្រហម', l:'Kra-hom', m:'Merah (cabai)', ex:'ម្រេចក្រហម — Lada merah'},
+    {k:'អំពៅ', l:'Am-peu', m:'Tebu', ex:'ទឹកអំពៅ — Air tebu'},
+    {k:'ចេក', l:'Chek', m:'Pisang', ex:'ចេករំពែ — Pisang raja'},
+  ],
+  tempat: [
+    {k:'ផ្ទះ', l:'Pteah', m:'Rumah', ex:'ផ្ទះខ្ញុំ — Rumah saya'},
+    {k:'ទីក្រុង', l:'Ti-krong', m:'Kota', ex:'ទីក្រុងភ្នំពេញ — Kota Phnom Penh'},
+    {k:'ព្រៃ', l:'Prey', m:'Hutan', ex:'ព្រៃឈើ — Hutan lebat'},
+    {k:'ស្ទឹង', l:'S\'tong', m:'Sungai', ex:'ស្ទឹងតូច — Sungai kecil'},
+    {k:'វត្ត', l:'Vot', m:'Kuil / Pura', ex:'វត្តអង្គរ — Angkor Wat'},
+    {k:'ភ្នំ', l:'Phnom', m:'Gunung', ex:'ភ្នំពេញ — Phnom Penh'},
+    {k:'សមុទ្រ', l:'Sa-mot', m:'Laut', ex:'ឆ្នេរសមុទ្រ — Pantai laut'},
+    {k:'ទីផ្សារ', l:'Ti-psar', m:'Pasar', ex:'ទីផ្សារធំ — Pasar besar'},
+  ],
+  warna: [
+    {k:'ក្រហម', l:'Kra-hom', m:'Merah', ex:'ផ្ការក្រហម — Bunga merah'},
+    {k:'ខៀវ', l:'Khiev', m:'Biru / Hijau', ex:'មេឃខៀវ — Langit biru'},
+    {k:'លឿង', l:'Loeung', m:'Kuning', ex:'ព្រះអាទិត្យលឿង — Matahari kuning'},
+    {k:'ស', l:'Sor', m:'Putih', ex:'ស្ករស — Putih bersih'},
+    {k:'ខ្មៅ', l:'Khmau', m:'Hitam', ex:'ពពកខ្មៅ — Awan hitam'},
+    {k:'ត្នោត', l:'T\'not', m:'Oranye', ex:'ផ្លែត្នោត — Buah oranye'},
+    {k:'ស្វាយ', l:'Svay', m:'Ungu', ex:'ពណ៌ស្វាយ — Warna ungu'},
+    {k:'បៃតង', l:'Bai-tong', m:'Hijau', ex:'ស្មៅបៃតង — Rumput hijau'},
+  ],
+  alam: [
+    {k:'ព្រះអាទិត្យ', l:'Preah-a-tit', m:'Matahari', ex:'ព្រះអាទិត្យរះ — Matahari terbit'},
+    {k:'ព្រះចន្ទ', l:'Preah-chan', m:'Bulan', ex:'ព្រះចន្ទពេញ — Bulan purnama'},
+    {k:'ផ្ការ', l:'Phkar', m:'Bunga', ex:'ផ្ការស្ស្អាត — Bunga cantik'},
+    {k:'ភ្លៀង', l:'Phliang', m:'Hujan', ex:'ភ្លៀងធ្លាក់ — Hujan turun'},
+    {k:'ខ្យល់', l:'Khyal', m:'Angin', ex:'ខ្យល់ត្រជាក់ — Angin sejuk'},
+    {k:'ឯ',  l:'Ae', m:'Bintang', ex:'ផ្ការឯ — Bintang-bintang'},
+    {k:'ដី', l:'Dei', m:'Tanah', ex:'ដីក្រហម — Tanah merah'},
+    {k:'ថ្ម', l:'Thma', m:'Batu', ex:'ថ្មធំ — Batu besar'},
+  ],
+  tubuh: [
+    {k:'ក្បាល', l:'K\'bal', m:'Kepala', ex:'ក្បាលហ៊ឺ — Kepala sakit'},
+    {k:'ភ្នែក', l:'Phnek', m:'Mata', ex:'ភ្នែកស្អ', ex:'ភ្នែកស្អាត — Mata cantik'},
+    {k:'ត្រចៀក', l:'Tra-chiek', m:'Telinga', ex:'ត្រចៀក — Telinga'},
+    {k:'មាត់', l:'Moat', m:'Mulut', ex:'មាត់ញ៉ាំ — Mulut makan'},
+    {k:'ដៃ', l:'Dai', m:'Tangan', ex:'ដៃខ្លី — Tangan pendek'},
+    {k:'ជើង', l:'Cheung', m:'Kaki', ex:'ជើងស — Kaki putih'},
+    {k:'ចិត្ត', l:'Chet', m:'Hati', ex:'ចិត្តល្អ — Hati baik'},
+    {k:'ខ្លួន', l:'Khloun', m:'Tubuh / Diri', ex:'ខ្លួនឯង — Diri sendiri'},
+  ],
+  waktu: [
+    {k:'ថ្ងៃ', l:'Thngai', m:'Hari / Siang', ex:'ថ្ងៃនេះ — Hari ini'},
+    {k:'យប់', l:'Yup', m:'Malam', ex:'យប់មិញ — Tadi malam'},
+    {k:'ព្រឹក', l:'Preuk', m:'Pagi', ex:'ព្រឹកស្អរ — Pagi cerah'},
+    {k:'ល្ងាច', l:'Lngeach', m:'Sore', ex:'ល្ងាចល្អ — Sore indah'},
+    {k:'ស្អែក', l:'S\'aek', m:'Besok', ex:'ស្អែកមើល — Lihat besok'},
+    {k:'ម្សិល', l:'M\'sel', m:'Kemarin', ex:'ម្សិលមិញ — Kemarin'},
+    {k:'ឥឡូវ', l:'Ei-lov', m:'Sekarang', ex:'ឥឡូវនេះ — Sekarang ini'},
+    {k:'ម៉ោង', l:'Maong', m:'Jam', ex:'ម៉ោងប៉ុន្មាន? — Jam berapa?'},
+  ],
+};
+
+function showVocab(cat) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const grid = document.getElementById('vocab-grid');
+  grid.innerHTML = '';
+  vocabData[cat].forEach(v => {
+    grid.innerHTML += `<div class="vocab-card" onclick="speakKhmer('${v.l}')">
+      <span class="vocab-khmer">${v.k}</span>
+      <div class="vocab-latin">${v.l}</div>
+      <div class="vocab-meaning">${v.m}</div>
+      <div class="vocab-example">${v.ex}</div>
+      <button class="speak-btn" onclick="event.stopPropagation();speakKhmer('${v.l}')">🔊 Dengar</button>
+    </div>`;
+  });
+}
+showVocab('salam');
+
+// ===== PHRASES =====
+const phrases = [
+  {
+    cat: 'Sapaan', title: 'Salam & Perkenalan',
+    rows: [
+      {k:'សួស្តី!', r:'Suos-dei!', i:'Halo!'},
+      {k:'អ្នកសុខសប្បាយទេ?', r:'Neak sok sabay te?', i:'Apa kabar?'},
+      {k:'ខ្ញុំសុខសប្បាយ', r:'Khnhom sok sabay', i:'Saya baik-baik saja'},
+      {k:'ឈ្មោះអ្នកគឺអ្វី?', r:'Chhmua neak keu avei?', i:'Siapa nama kamu?'},
+      {k:'ឈ្មោះខ្ញុំ...', r:'Chhmua khnhom...', i:'Nama saya adalah...'},
+      {k:'ខ្ញុំមកពីឥណ្ឌូនេស៊ី', r:'Khnhom mok pi Indonesia', i:'Saya dari Indonesia'},
+    ]
+  },
+  {
+    cat: 'Kesopanan', title: 'Ucapan Sopan',
+    rows: [
+      {k:'អរគុណ', r:'Ar-kun', i:'Terima kasih'},
+      {k:'អរគុណច្រើន', r:'Ar-kun chraen', i:'Terima kasih banyak'},
+      {k:'សូមទោស', r:'Soum-toh', i:'Maaf / Permisi'},
+      {k:'ខ្ញុំសោកស្ដាយ', r:'Khnhom saok s\'dai', i:'Saya minta maaf'},
+      {k:'រីករាយ', r:'Rik-reay', i:'Sama-sama / Senang'},
+      {k:'អត់ទោស', r:'At-toh', i:'Tidak apa-apa'},
+    ]
+  },
+  {
+    cat: 'Pertanyaan', title: 'Bertanya & Meminta Bantuan',
+    rows: [
+      {k:'ខ្ញុំមិនយល់', r:'Khnhom min yul', i:'Saya tidak mengerti'},
+      {k:'សូមថាម្ដងទៀត', r:'Soum tha m\'dong tiet', i:'Tolong ulangi lagi'},
+      {k:'ប៉ុន្មានលុយ?', r:'Ponman luy?', i:'Berapa harganya?'},
+      {k:'នៅឯណា?', r:'Now ae na?', i:'Di mana?'},
+      {k:'ម៉ោងប៉ុន្មាន?', r:'Maong ponman?', i:'Jam berapa?'},
+      {k:'អ្នកនិយាយភាសាខ្មែរបានទេ?', r:'Neak ni-yay phiesa Khmer ban te?', i:'Kamu bisa berbahasa Khmer?'},
+    ]
+  },
+  {
+    cat: 'Restoran', title: 'Di Restoran & Pasar',
+    rows: [
+      {k:'ខ្ញុំចង់ញ៉ាំ...', r:'Khnhom jong nyam...', i:'Saya ingin makan...'},
+      {k:'ឆ្ងុញណាស់', r:'Chhnhunh nas', i:'Sangat enak!'},
+      {k:'ស្ងោរ / ចំអិន', r:'S\'ngaor / Cham-en', i:'Masak'},
+      {k:'ពន្លឺ / ត្រជាក់', r:'Ponleu / Tra-chak', i:'Panas / Dingin'},
+      {k:'ហូបទៀត', r:'Houp tiet', i:'Makan lagi'},
+      {k:'ចំណងជើង', r:'Cham-nong cheung', i:'Menu'},
+    ]
+  },
+  {
+    cat: 'Emosi', title: 'Perasaan & Emosi',
+    rows: [
+      {k:'ខ្ញុំស្រឡាញ់ស្ករ', r:'Khnhom s\'ranh neak', i:'Saya mencintaimu'},
+      {k:'ខ្ញុំរីករាយ', r:'Khnhom rik-reay', i:'Saya bahagia'},
+      {k:'ខ្ញុំសោកស្ដាយ', r:'Khnhom saok s\'dai', i:'Saya sedih'},
+      {k:'ខ្ញុំខឹង', r:'Khnhom kheng', i:'Saya marah'},
+      {k:'ខ្ញុំខ្លាច', r:'Khnhom khlaach', i:'Saya takut'},
+      {k:'ខ្ញុំនឿយ', r:'Khnhom noeuy', i:'Saya lelah'},
+    ]
+  },
+];
+
+const acc = document.getElementById('phrase-accordion');
+phrases.forEach((p, i) => {
+  acc.innerHTML += `<div class="phrase-item" id="phrase-${i}">
+    <div class="phrase-header" onclick="togglePhrase(${i})">
+      <div>
+        <div class="phrase-category">${p.cat}</div>
+        <div class="phrase-title">${p.title}</div>
+      </div>
+      <div class="phrase-chevron">⌄</div>
+    </div>
+    <div class="phrase-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.5rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(212,175,55,0.15)">
+        <span style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);opacity:0.6">Khmer</span>
+        <span style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);opacity:0.6">Baca</span>
+        <span style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);opacity:0.6">Artinya</span>
+      </div>
+      ${p.rows.map(r => `<div class="phrase-row">
+        <span class="ph-khmer">${r.k}</span>
+        <span class="ph-read">${r.r}</span>
+        <span class="ph-indo">${r.i}</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+});
+
+function togglePhrase(i) {
+  const item = document.getElementById('phrase-' + i);
+  item.classList.toggle('open');
+}
+
+// ===== NUMBERS =====
+const nums = [
+  {n:0, k:'សូន្យ', r:'Soun'},
+  {n:1, k:'មួយ', r:'Muoy'},
+  {n:2, k:'ពីរ', r:'Pir'},
+  {n:3, k:'បី', r:'Bei'},
+  {n:4, k:'បួន', r:'Boun'},
+  {n:5, k:'ប្រាំ', r:'Pram'},
+  {n:6, k:'ប្រាំមួយ', r:'Pram-muoy'},
+  {n:7, k:'ប្រាំពីរ', r:'Pram-pir'},
+  {n:8, k:'ប្រាំបី', r:'Pram-bei'},
+  {n:9, k:'ប្រាំបួន', r:'Pram-boun'},
+  {n:10, k:'ដប់', r:'Dop'},
+  {n:20, k:'ម្ភៃ', r:'Mpei'},
+  {n:30, k:'សាមសិប', r:'Sam-sib'},
+  {n:40, k:'សែសិប', r:'Se-sib'},
+  {n:50, k:'ហាសិប', r:'Ha-sib'},
+  {n:100, k:'មួយរយ', r:'Muoy-roi'},
+  {n:1000, k:'មួយពាន់', r:'Muoy-poan'},
+  {n:10000, k:'មួយម៉ឺន', r:'Muoy-meun'},
+];
+
+const nGrid = document.getElementById('numbers-grid');
+nums.forEach(n => {
+  nGrid.innerHTML += `<div class="number-card" onclick="speakKhmer('${n.r}')">
+    <div class="num-value">${n.n}</div>
+    <div class="num-khmer">${n.k}</div>
+    <div class="num-read">${n.r}</div>
+  </div>`;
+});
+
+// ===== SONGS =====
+const songs = [
+  {
+    emoji: '🌸',
+    title: 'ស្រីគ្រឹស្ថ',
+    titleIndo: 'Srey Kres — Gadis Kristal',
+    desc: 'Lagu cinta klasik Khmer yang sangat terkenal',
+    lyrics: [
+      {k:'ស្រីគ្រឹស្ថ ស្អាតពណ៌ស', r:'Srey kres s\'at poa sor', i:'Gadis kristal berkulit putih bersih'},
+      {k:'ភ្នែកស្រស់ ដូចផ្ការ', r:'Phnek s\'ros douch phkar', i:'Mata indah seperti bunga'},
+      {k:'ចិត្តខ្ញុំ ស្រឡាញ់នាង', r:'Chet khnhom s\'ranh neang', i:'Hatiku mencintainya'},
+      {k:'ស្នើសុំ ចងស្រស់', r:'S\'noe-som chong s\'ros', i:'Memohon untuk bersatu'},
+      {k:'ខ្ញុំ​ស្រឡាញ់​ស្ករ', r:'Khnhom s\'ranh neak', i:'Aku mencintaimu'},
+      {k:'ជារ​ចិត្ត​ពិត', r:'Chea ro chet pit', i:'Dengan hati yang tulus'},
+    ]
+  },
+  {
+    emoji: '🌺',
+    title: 'ដំណើរស្នេហ៍',
+    titleIndo: 'Damnear Sne — Perjalanan Cinta',
+    desc: 'Balada romantis tentang perjalanan dua insan',
+    lyrics: [
+      {k:'ដំណើរស្នេហ៍ ដែលយើងហើរ', r:'Damnear sne del yeung haer', i:'Perjalanan cinta yang kita lalui'},
+      {k:'ពីព្រឹក ដល់យប់', r:'Pi preuk dal yup', i:'Dari pagi hingga malam'},
+      {k:'ជាមួយ​គ្នា​ជានិច្ច', r:'Chea muoy knia chea noch', i:'Bersama selamanya'},
+      {k:'ស្នេហ៍​ពិត​ពុំ​ស្លាប់', r:'Sne pit pum slap', i:'Cinta sejati tidak mati'},
+      {k:'ចាប់​ដៃ​ដើរ​ជាមួយ', r:'Chap dai daer chea muoy', i:'Bergandengan tangan bersama'},
+      {k:'ទៅ​ចុងផ្លូវ​ស្នេហ៍', r:'Tov chong phlov sne', i:'Menuju ujung jalan cinta'},
+    ]
+  },
+  {
+    emoji: '🏯',
+    title: 'អង្គរ​ ស្ថានភ​ព',
+    titleIndo: 'Angkor — Keagungan Warisan Leluhur',
+    desc: 'Lagu kebanggaan tentang warisan Angkor Wat',
+    lyrics: [
+      {k:'អង្គរ​វត្ត ល្បីល្បាញ', r:'Angkor Vat lbei lbanh', i:'Angkor Wat yang termasyhur'},
+      {k:'បេតិកភណ្ឌ​ ខ្មែររាប', r:'Betik-phon Khmer reap', i:'Warisan bangsa Khmer'},
+      {k:'ស្ថានភ​ព​ ដ​ ល​ រ​ ប​ ស់​ ពួ​ ក​ យ​ ើ​ ង', r:'Sthan-phop del robos puok yeung', i:'Warisan milik kita semua'},
+      {k:'ភ្នំ​ ពេ​ ញ​ ស​ ថ​ ិ​ ត​ ជ​ ា​ ខ​ ោ​ ស', r:'Phnom Penh sthet chea khos', i:'Phnom Penh berdiri kokoh'},
+      {k:'ប្រ​ ជ​ ា​ ខ្​ ម​ ែ​ រ​ ជ​ ា​ ទ​ ី​ ស្​ រ​ ឡ​ ាញ', r:'Prochea Khmer chea ti s\'ranh', i:'Rakyat Khmer yang tercinta'},
+      {k:'រីក​ ច​ ម្​ រើ​ ន​ ជ​ ា​ ន​ ិ​ ច្​ ច', r:'Rik chamroeun chea noch', i:'Berkembang maju selamanya'},
+    ]
+  },
+  {
+    emoji: '🌙',
+    title: 'ច​ ន្​ ទ​ ស​ ម​ ក',
+    titleIndo: 'Chan Somok — Bulan Purnama',
+    desc: 'Lagu tradisional tentang keindahan malam bulan purnama',
+    lyrics: [
+      {k:'ព្រះចន្ទ ពេញ ត្រ​ ជ​ ំ', r:'Preah chan penh tra-chom', i:'Bulan purnama yang bercahaya'},
+      {k:'ស​ ាំ​ ណ​ ំ​ ដ​ ូ​ ច​ ស​ ណ្​ ត', r:'Sam-nom douch s\'not', i:'Tenang seperti mimpi'},
+      {k:'ព​ ន្​ លឺ​ ព​ ណ​ ិ ​ ត​ ដ​ ូ​ ច​ ប​ ណ្ and​ ា​ ល', r:'Pon-leu po-net douch bantal', i:'Cahaya lembut bagai bantal'},
+      {k:'ស​ ំ​ ស​ ្ ​ ត​ ាំ​ ង​ ភ​ ្ ​ យ​ ើ​ ង', r:'Som-s\'tang phyeung', i:'Menerangi perjalanan kita'},
+      {k:'ចន្​ ទ​ ំ​ ណ​ ង​ ​ ត​ ូ​ ច​ ​ ស​ ្ ​ ណ​ ើ​ ប', r:'Chanto-nhong toch s\'noeb', i:'Sinar bulan kecil yang lembut'},
+      {k:'ភ​ ្ ​ ណ​ ំ​ ​ ព​ ើ​ ំ​ ​ ជ​ ូ​ ន​ ​ ស​ ំ​ ណ​ ាប', r:'Phnom poeun choun somnak', i:'Pegunungan memberikan keteduhan'},
+    ]
+  },
+];
+
+const sc = document.getElementById('songs-container');
+songs.forEach(s => {
+  sc.innerHTML += `<div class="song-card">
+    <div class="song-header">
+      <div class="song-cover">${s.emoji}</div>
+      <div class="song-info">
+        <h3>${s.title}</h3>
+        <h4>${s.titleIndo}</h4>
+        <p>🎵 ${s.desc}</p>
+      </div>
+    </div>
+    <div class="lyrics-container">
+      <div class="lyrics-col">
+        <h5>🇰🇭 Khmer + Cara Baca</h5>
+        ${s.lyrics.map(l => `<div class="lyric-line">
+          <span class="lyric-khmer">${l.k}</span>
+          <span class="lyric-read">${l.r}</span>
+        </div>`).join('')}
+      </div>
+      <div class="lyrics-col">
+        <h5>🇮🇩 Terjemahan Indonesia</h5>
+        ${s.lyrics.map(l => `<div class="lyric-line">
+          <span class="lyric-indo">${l.i}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+});
+
+// ===== QUIZ =====
+const quizData = [
+  {k:'សួស្តី', r:'Suos-dei', opts:['Halo','Terima kasih','Selamat tinggal','Maaf'], ans:'Halo'},
+  {k:'អរគុណ', r:'Ar-kun', opts:['Maaf','Terima kasih','Ya','Tidak'], ans:'Terima kasih'},
+  {k:'ទឹក', r:'Tik', opts:['Nasi','Air','Ikan','Buah'], ans:'Air'},
+  {k:'ផ្ទះ', r:'Pteah', opts:['Pasar','Kota','Rumah','Sungai'], ans:'Rumah'},
+  {k:'ម្ដាយ', r:"M'day", opts:['Ayah','Nenek','Ibu','Adik'], ans:'Ibu'},
+  {k:'យប់', r:'Yup', opts:['Pagi','Siang','Sore','Malam'], ans:'Malam'},
+  {k:'ក្រហម', r:'Kra-hom', opts:['Biru','Merah','Hijau','Kuning'], ans:'Merah'},
+  {k:'ចិត្ត', r:'Chet', opts:['Kepala','Tangan','Hati','Kaki'], ans:'Hati'},
+  {k:'ភ្លៀង', r:'Phliang', opts:['Angin','Hujan','Bintang','Matahari'], ans:'Hujan'},
+  {k:'ស្នេហ៍', r:'Sne', opts:['Benci','Takut','Cinta','Marah'], ans:'Cinta'},
+];
+
+let qIdx = 0, score = 0, total = 0, answered = false;
+
+function loadQuestion() {
+  answered = false;
+  const q = quizData[qIdx % quizData.length];
+  document.getElementById('qKhmer').textContent = q.k;
+  document.getElementById('qLatin').textContent = q.r;
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-feedback').style.color = '';
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = '';
+  q.opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = o;
+    btn.onclick = () => checkAnswer(o, q.ans, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function checkAnswer(ans, correct, btn) {
+  if(answered) return;
+  answered = true;
+  total++;
+  if(ans === correct) {
+    score++;
+    btn.classList.add('correct');
+    document.getElementById('quiz-feedback').textContent = '✅ Benar! Luar biasa!';
+    document.getElementById('quiz-feedback').style.color = '#5cdb5c';
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('quiz-feedback').textContent = `❌ Salah. Jawabannya: ${correct}`;
+    document.getElementById('quiz-feedback').style.color = '#ff6b6b';
+    document.querySelectorAll('.quiz-option').forEach(b => {
+      if(b.textContent === correct) b.classList.add('correct');
+    });
+  }
+  document.getElementById('quiz-score').textContent = `Skor: ${score} / ${total}`;
+}
+
+function nextQuestion() {
+  qIdx = (qIdx + 1) % quizData.length;
+  loadQuestion();
+}
+
+loadQuestion();
+
+// ===== CULTURE =====
+const cultures = [
+  {icon:'🏯', title:'Angkor Wat', desc:'Angkor Wat adalah kuil Hindu-Buddha terbesar di dunia, dibangun pada abad ke-12 oleh Raja Suryavarman II. Merupakan keajaiban arsitektur yang mencerminkan kosmologi Hindu.'},
+  {icon:'👘', title:'Sampot (Pakaian)', desc:'Sampot adalah pakaian tradisional Kamboja, mirip sarung yang dililitkan di pinggang. Dipakai dalam upacara resmi dan perayaan budaya.'},
+  {icon:'💃', title:'Tari Apsara', desc:'Tari Apsara adalah tarian klasik Khmer yang sangat sakral. Gerakannya terinspirasi dari relief di Angkor Wat, menggambarkan bidadari surgawi.'},
+  {icon:'🎭', title:'Festival Khmer', desc:'Khmer Rok atau Pchum Ben adalah festival arwah leluhur. Masyarakat membawa makanan ke kuil selama 15 hari untuk menghormati roh orang tua.'},
+  {icon:'🍜', title:'Kuliner Khmer', desc:'Amok adalah masakan khas Kamboja — ikan atau ayam dimasak dengan santan dan rempah dalam bungkusan daun pisang. Rasanya lembut dan harum.'},
+  {icon:'🎵', title:'Musik Pinpeat', desc:'Pinpeat adalah ansambel musik tradisional Khmer yang digunakan dalam upacara kuil. Terdiri dari xilofon, gong, dan suling bambu.'},
+  {icon:'🌾', title:'Pertanian Padi', desc:'Padi adalah jantung kehidupan Kamboja. Festival Bon Om Touk (Festival Air) dirayakan saat panen tiba, dengan lomba perahu di sungai Tonle Sap.'},
+  {icon:'📜', title:'Aksara Khmer', desc:'Aksara Khmer berasal dari aksara Pallawa India Selatan, dikembangkan sekitar abad ke-7. Ini adalah salah satu sistem tulisan tertua di Asia Tenggara.'},
+  {icon:'🙏', title:'Sampeah (Hormat)', desc:'Sampeah adalah sapaan hormat Khmer dengan mengatupkan kedua tangan seperti berdoa. Semakin tinggi tangan, semakin besar rasa hormat yang ditunjukkan.'},
+];
+
+const cg = document.getElementById('culture-grid');
+cultures.forEach(c => {
+  cg.innerHTML += `<div class="culture-card">
+    <div class="culture-icon">${c.icon}</div>
+    <h3>${c.title}</h3>
+    <p>${c.desc}</p>
+  </div>`;
+});
+
+// ===== SPEAK =====
+function speakKhmer(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.lang = 'km-KH';
+  msg.rate = 0.85;
+  speechSynthesis.speak(msg);
+  showToast('🔊 ' + text);
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Progress bars (simulate)
+setTimeout(() => {
+  document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+    bar.style.width = bar.getAttribute('data-width') + '%';
+  });
+}, 500);
+</script>
+</body>
+</html>
